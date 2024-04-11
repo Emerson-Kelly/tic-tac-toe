@@ -1,5 +1,3 @@
-
-
 let board = [
     ['', '', ''],
     ['', '', ''],
@@ -56,6 +54,38 @@ function computerMove(board) {
     return bestMove;
 }
 
+// Function to reset the game
+function resetGame() {
+    // Reset the game board
+    board = [
+        ['', '', ''],
+        ['', '', ''],
+        ['', '', '']
+    ];
+
+    // Clear the board display
+    let cells = document.querySelectorAll('.cell');
+    cells.forEach(cell => cell.innerText = '');
+
+    // Reset any other variables or game state as needed
+}
+
+// Function to handle the end of the game (win, tie, or loss)
+function endGame(outcome) {
+    // Display the outcome message (win, tie, or loss)
+    alert(outcome);
+    let endGamePrompt = prompt('Would you like to play again?').toLowerCase(); 
+        if (endGamePrompt === "yes") {
+            resetGame();
+        }
+        else {
+            alert('Goodbye!');
+        }
+    
+
+    // Reset the game for another round
+    
+}
 
 // Function to make a move
 function makeMove(row, col) {
@@ -64,17 +94,18 @@ function makeMove(row, col) {
         board[row][col] = 'X';
         document.getElementById('cell' + (row * 3 + col + 1)).innerText = 'X';
         if (checkWin(board, 'X')) {
-            alert('You win!');
+            endGame('You win!');
         } else if (boardFull(board)) {
-            alert("It's a draw!");
+           
+            endGame("It's a draw!");
         } else {
             let move = computerMove(board);
             board[move.row][move.col] = 'O';
             document.getElementById('cell' + (move.row * 3 + move.col + 1)).innerText = 'O';
             if (checkWin(board, 'O')) {
-                alert('Computer wins!');
+                endGame('Computer wins!');
             } else if (boardFull(board)) {
-                alert("It's a draw!");
+                endGame("It's a draw!");
             }
         }
     }
@@ -126,4 +157,3 @@ function minimax(board, depth, isMaximizingPlayer, alpha, beta) {
         return bestScore;
     }
 }
-
