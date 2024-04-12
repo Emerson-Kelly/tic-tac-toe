@@ -74,17 +74,31 @@ function resetGame() {
 function endGame(outcome) {
     // Display the outcome message (win, tie, or loss)
     alert(outcome);
-    let endGamePrompt = prompt('Would you like to play again?').toLowerCase(); 
-        if (endGamePrompt === "yes") {
-            resetGame();
-        }
-        else {
-            alert('Goodbye!');
-        }
+
+   // let endGamePrompt = document.getElementById('roundModal');
+    document.querySelector(".modal").classList.add("show");
+    document.querySelector(".modal").style.display = "block";
+    document.body.style.backgroundColor = "gray";
+
+    let yesRound = document.getElementById('yesRound');
+    let noRound = document.getElementById('noRound');
+
+    //endGamePrompt.show();
     
 
-    // Reset the game for another round
-    
+    yesRound.addEventListener('click', function(){
+        document.body.style.backgroundColor = "white";
+        document.querySelector(".modal").classList.remove("show");
+        document.querySelector(".modal").style.display = "none";
+        resetGame();
+    });
+
+    noRound.addEventListener('click', function(){
+        document.body.style.backgroundColor = "white";
+        document.querySelector(".modal").classList.remove("show")
+        document.querySelector(".modal").style.display = "none";
+        alert('Goodbye!');
+    });
 }
 
 // Function to make a move
