@@ -73,8 +73,8 @@ function resetGame() {
 // Function to handle the end of the game (win, tie, or loss)
 function endGame(outcome) {
     // Display the outcome message (win, tie, or loss)
-    alert(outcome);
-
+    //alert(outcome);
+    roundModalLabel.insertAdjacentHTML('beforeend', outcome);
    // let endGamePrompt = document.getElementById('roundModal');
     document.querySelector(".modal").classList.add("show");
     document.querySelector(".modal").style.display = "block";
@@ -90,6 +90,7 @@ function endGame(outcome) {
         document.body.style.backgroundColor = "white";
         document.querySelector(".modal").classList.remove("show");
         document.querySelector(".modal").style.display = "none";
+        roundModalLabel.innerHTML = '';
         resetGame();
     });
 
@@ -97,7 +98,7 @@ function endGame(outcome) {
         document.body.style.backgroundColor = "white";
         document.querySelector(".modal").classList.remove("show")
         document.querySelector(".modal").style.display = "none";
-        alert('Goodbye!');
+        //alert('Goodbye!');
     });
 }
 
