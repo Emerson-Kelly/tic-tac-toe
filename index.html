@@ -31,12 +31,16 @@
     Launch demo modal
   </button>
   -->
-
+        <div class="controls-container">
         <div class="row mode-container">
-            <div class="col-sm-4"><button type="button" class="btn btn-outline-primary" id="easy">Easy</button></div>
-            <div class="col-sm-4"><button type="button" class="btn btn-outline-primary" id="medium">Medium</button></div>
-            <div class="col-sm-4"><button type="button" class="btn btn-outline-primary" id="hard">Hard</button></div>
+            <div class="col-sm-12">
+            <button type="button" class="btn btn-outline-primary" id="easy">Easy</button>
+           <button type="button" class="btn btn-outline-primary" id="medium">Medium</button>
+            <button type="button" class="btn btn-outline-primary" id="hard">Hard</button>
         </div>
+        </div>
+        <span class="difficulty-alert" id="difficultyAlert"></span>
+    </div>
 
         <!-- Modal -->
         <div class="modal fade" id="roundModal" tabindex="-1" aria-labelledby="roundModalLabel" aria-hidden="true">

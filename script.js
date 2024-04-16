@@ -4,36 +4,50 @@ let board = [
     ['', '', '']
 ];
 
-// Global variable to store the current difficulty level
-let difficultyLevel = 'hard'; // Default difficulty is 'hard'
+document.querySelector('.board').style.pointerEvents = 'none';
+document.getElementById('difficultyAlert').innerHTML = 'Please Select a Difficulty';
 
 // Event listener for the 'Easy' button
 document.getElementById('easy').addEventListener('click', function() {
     difficultyLevel = 'easy';
     resetGame();
+    document.getElementById('difficultyAlert').innerHTML = '';
+   document.querySelector('.board').style.pointerEvents = '';
 });
 
 // Event listener for the 'Medium' button
 document.getElementById('medium').addEventListener('click', function() {
     difficultyLevel = 'medium';
     resetGame();
+    document.getElementById('difficultyAlert').innerHTML = '';
+    document.querySelector('.board').style.pointerEvents = '';
 });
 
 // Event listener for the 'Hard' button
 document.getElementById('hard').addEventListener('click', function() {
     difficultyLevel = 'hard';
     resetGame();
+    document.getElementById('difficultyAlert').innerHTML = '';
+    document.querySelector('.board').style.pointerEvents = '';
 });
 
 // Function to make the computer move based on the difficulty level
 function computerMove(board) {
+    //let boardContainer = document.querySelector('.board');
+   // document.querySelector('.board').style.pointerEvents = 'none';
+    
+    
     if (difficultyLevel === 'easy') {
+        document.querySelector('.board').style.pointerEvents = '';
         return randomMove(board);
     } else if (difficultyLevel === 'medium') {
+        document.querySelector('.board').style.pointerEvents = '';
         return mediumMove(board);
     } else {
+        document.querySelector('.board').style.pointerEvents = '';
         return minimax(board, 0, false, -Infinity, Infinity).move;
     }
+
 }
 
 
@@ -47,6 +61,7 @@ function randomMove(board) {
             }
         }
     }
+    console.log('easy');
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
 }
 
@@ -58,7 +73,7 @@ function mediumMove(board) {
 
     move = checkWinningMove(board, 'X');
     if (move) return move;
-
+    console.log('medium');
     return randomMove(board);
 }
 
@@ -138,11 +153,15 @@ function resetGame() {
     cells.forEach(cell => cell.innerText = '');
 
     // Reset any other variables or game state as needed
+    //boardContainer.style.pointerEvents = 'none';
+   // document.querySelector('.board').style.pointerEvents = 'none';
+    computerMove(board);
 }
 
 // Function to handle the end of the game (win, tie, or loss)
 function endGame(outcome) {
     // Display the outcome message (win, tie, or loss)
+    
     roundModalLabel.insertAdjacentHTML('beforeend', outcome);
     document.querySelector(".modal").classList.add("show");
     document.querySelector(".modal").style.display = "block";
@@ -157,6 +176,7 @@ function endGame(outcome) {
         document.querySelector(".modal").style.display = "none";
         roundModalLabel.innerHTML = '';
         resetGame();
+        document.querySelector('.board').style.pointerEvents = 'none';
     });
 
     noRound.addEventListener('click', function(){
@@ -164,6 +184,7 @@ function endGame(outcome) {
         document.querySelector(".modal").classList.remove("show")
         document.querySelector(".modal").style.display = "none";
     });
+    //document.querySelector('.board').style.pointerEvents = 'none';
 }
 
 // Function to make a move
@@ -192,7 +213,9 @@ function makeMove(row, col) {
 }
 
 // Function for the computer's move using MiniMax algorithm with alpha-beta pruning
+// Function for the computer's move using MiniMax algorithm with alpha-beta pruning
 function minimax(board, depth, isMaximizingPlayer, alpha, beta) {
+    // Check if the game is over or if the maximum depth has been reached
     if (checkWin(board, 'X')) {
         return { score: -10 + depth }; // Human player wins
     } else if (checkWin(board, 'O')) {
@@ -201,43 +224,59 @@ function minimax(board, depth, isMaximizingPlayer, alpha, beta) {
         return { score: 0 }; // Draw
     }
 
+    // If it's the maximizing player's turn (computer), find the move with the highest score
     if (isMaximizingPlayer) {
         let bestScore = -Infinity;
         let bestMove = null;
+        // Loop through all empty cells
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (board[i][j] === '') {
+                    // Try the current empty cell for the maximizing player (computer)
                     board[i][j] = 'O';
+                    // Recursively call minimax with the updated board and depth
                     let { score } = minimax(board, depth + 1, false, alpha, beta);
+                    // Undo the move
                     board[i][j] = '';
+                    // Update the best score and move if the current score is higher
                     if (score > bestScore) {
                         bestScore = score;
                         bestMove = { row: i, col: j };
                     }
+                    // Update alpha (the best value for the maximizing player)
                     alpha = Math.max(alpha, score);
+                    // Perform alpha-beta pruning if beta is less than or equal to alpha
                     if (beta <= alpha) {
-                        break;
+                        break; // Beta cut-off
                     }
                 }
             }
         }
         return { score: bestScore, move: bestMove };
     } else {
+        // If it's the minimizing player's turn (human), find the move with the lowest score
         let bestScore = Infinity;
         let bestMove = null;
+        // Loop through all empty cells
         for (let i = 0; i < 3; i++) {
             for (let j = 0; j < 3; j++) {
                 if (board[i][j] === '') {
+                    // Try the current empty cell for the minimizing player (human)
                     board[i][j] = 'X';
+                    // Recursively call minimax with the updated board and depth
                     let { score } = minimax(board, depth + 1, true, alpha, beta);
+                    // Undo the move
                     board[i][j] = '';
+                    // Update the best score and move if the current score is lower
                     if (score < bestScore) {
                         bestScore = score;
                         bestMove = { row: i, col: j };
                     }
+                    // Update beta (the best value for the minimizing player)
                     beta = Math.min(beta, score);
+                    // Perform alpha-beta pruning if beta is less than or equal to alpha
                     if (beta <= alpha) {
-                        break;
+                        break; // Alpha cut-off
                     }
                 }
             }
