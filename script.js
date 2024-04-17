@@ -190,7 +190,7 @@ function endGame(outcome) {
     let noRound = document.getElementById('noRound');
 
     yesRound.addEventListener('click', function(){
-        document.body.style.backgroundColor = "white";
+        document.body.style.backgroundColor = "#497959";
         document.querySelector(".modal").classList.remove("show");
         document.querySelector(".modal").style.display = "none";
         roundModalLabel.innerHTML = '';
@@ -199,7 +199,7 @@ function endGame(outcome) {
     });
 
     noRound.addEventListener('click', function(){
-        document.body.style.backgroundColor = "white";
+        document.body.style.backgroundColor = "#497959";
         document.querySelector(".modal").classList.remove("show")
         document.querySelector(".modal").style.display = "none";
     });
