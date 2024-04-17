@@ -7,6 +7,22 @@ let board = [
 document.querySelector('.board').style.pointerEvents = 'none';
 document.getElementById('difficultyAlert').innerHTML = 'Please Select a Difficulty';
 
+
+ document.getElementById('toast').style.display = 'block'; // Show the backdrop
+
+    document.getElementById('toastCancel').addEventListener('click', function() {
+        document.getElementById('toast').style.display = 'none';
+    });
+
+    document.getElementById('toastClose').style.display = 'block'; // Show the backdrop
+
+    document.getElementById('toastClose').addEventListener('click', function() {
+        document.getElementById('toast').style.display = 'none';
+    });
+
+
+
+
 // Event listener for the 'Easy' button
 document.getElementById('easy').addEventListener('click', function() {
     difficultyLevel = 'easy';
@@ -151,6 +167,9 @@ function resetGame() {
     // Clear the board display
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.innerText = '');
+
+    document.querySelector('.board').style.pointerEvents = 'none';
+document.getElementById('difficultyAlert').innerHTML = 'Please Select a Difficulty';
 
     // Reset any other variables or game state as needed
     //boardContainer.style.pointerEvents = 'none';
