@@ -1,3 +1,4 @@
+
 let board = [
     ['', '', ''],
     ['', '', ''],
@@ -8,31 +9,31 @@ document.querySelector('.board').style.pointerEvents = 'none';
 document.getElementById('difficultyAlert').innerHTML = 'Please Select a Difficulty';
 
 
- document.getElementById('toast').style.display = 'block'; // Show the backdrop
+document.getElementById('toast').style.display = 'block'; // Show the backdrop
 
-    document.getElementById('toastCancel').addEventListener('click', function() {
-        document.getElementById('toast').style.display = 'none';
-    });
+document.getElementById('toastCancel').addEventListener('click', function () {
+    document.getElementById('toast').style.display = 'none';
+});
 
-    document.getElementById('toastClose').style.display = 'block'; // Show the backdrop
+document.getElementById('toastClose').style.display = 'block'; // Show the backdrop
 
-    document.getElementById('toastClose').addEventListener('click', function() {
-        document.getElementById('toast').style.display = 'none';
-    });
+document.getElementById('toastClose').addEventListener('click', function () {
+    document.getElementById('toast').style.display = 'none';
+});
 
 
 
 
 // Event listener for the 'Easy' button
-document.getElementById('easy').addEventListener('click', function() {
+document.getElementById('easy').addEventListener('click', function () {
     difficultyLevel = 'easy';
     resetGame();
     document.getElementById('difficultyAlert').innerHTML = '';
-   document.querySelector('.board').style.pointerEvents = '';
+    document.querySelector('.board').style.pointerEvents = '';
 });
 
 // Event listener for the 'Medium' button
-document.getElementById('medium').addEventListener('click', function() {
+document.getElementById('medium').addEventListener('click', function () {
     difficultyLevel = 'medium';
     resetGame();
     document.getElementById('difficultyAlert').innerHTML = '';
@@ -40,7 +41,7 @@ document.getElementById('medium').addEventListener('click', function() {
 });
 
 // Event listener for the 'Hard' button
-document.getElementById('hard').addEventListener('click', function() {
+document.getElementById('hard').addEventListener('click', function () {
     difficultyLevel = 'hard';
     resetGame();
     document.getElementById('difficultyAlert').innerHTML = '';
@@ -49,10 +50,7 @@ document.getElementById('hard').addEventListener('click', function() {
 
 // Function to make the computer move based on the difficulty level
 function computerMove(board) {
-    //let boardContainer = document.querySelector('.board');
-   // document.querySelector('.board').style.pointerEvents = 'none';
-    
-    
+
     if (difficultyLevel === 'easy') {
         document.querySelector('.board').style.pointerEvents = '';
         return randomMove(board);
@@ -60,8 +58,11 @@ function computerMove(board) {
         document.querySelector('.board').style.pointerEvents = '';
         return mediumMove(board);
     } else {
-        document.querySelector('.board').style.pointerEvents = '';
-        return minimax(board, 0, false, -Infinity, Infinity).move;
+        if ((board[0][0] === 'X' || board[0][2] === 'X' || board[2][0] === 'X' || board[2][2] === 'X') && board[1][1] === '') {
+            return { row: 1, col: 1 };
+        } else {
+            return minimax(board, 0, false, -Infinity, Infinity).move;
+        }
     }
 
 }
@@ -81,6 +82,7 @@ function randomMove(board) {
     return emptyCells[Math.floor(Math.random() * emptyCells.length)];
 }
 
+
 // Function to make a medium level move
 function mediumMove(board) {
     // Priority: Win, Block, Random
@@ -93,9 +95,10 @@ function mediumMove(board) {
     return randomMove(board);
 }
 
+
 // Check if a winning move is available
 function checkWinningMove(board, player) {
-    // Check rows and columns
+
     for (let i = 0; i < 3; i++) {
         if ((board[i][0] === player && board[i][1] === player && board[i][2] === '') ||
             (board[i][0] === player && board[i][2] === player && board[i][1] === '') ||
@@ -122,22 +125,17 @@ function checkWinningMove(board, player) {
     return null;
 }
 
-// Reset game function remains unchanged
-
-// Event listeners for difficulty buttons remain unchanged
-
-// Your existing game logic and minimax algorithm functions
 
 // Function to check if a player has won
 function checkWin(board, player) {
-    // Check rows and columns
+
     for (let i = 0; i < 3; i++) {
         if ((board[i][0] === player && board[i][1] === player && board[i][2] === player) ||
             (board[0][i] === player && board[1][i] === player && board[2][i] === player)) {
             return true;
         }
     }
-    // Check diagonals
+
     if ((board[0][0] === player && board[1][1] === player && board[2][2] === player) ||
         (board[0][2] === player && board[1][1] === player && board[2][0] === player)) {
         return true;
@@ -157,30 +155,26 @@ function boardFull(board) {
 
 // Function to reset the game
 function resetGame() {
-    // Reset the game board
+
     board = [
         ['', '', ''],
         ['', '', ''],
         ['', '', '']
     ];
 
-    // Clear the board display
+
     let cells = document.querySelectorAll('.cell');
     cells.forEach(cell => cell.innerText = '');
 
     document.querySelector('.board').style.pointerEvents = 'none';
-document.getElementById('difficultyAlert').innerHTML = 'Please Select a Difficulty';
+    document.getElementById('difficultyAlert').innerHTML = 'Please Select a Difficulty';
 
-    // Reset any other variables or game state as needed
-    //boardContainer.style.pointerEvents = 'none';
-   // document.querySelector('.board').style.pointerEvents = 'none';
     computerMove(board);
 }
 
 // Function to handle the end of the game (win, tie, or loss)
 function endGame(outcome) {
-    // Display the outcome message (win, tie, or loss)
-    
+
     roundModalLabel.insertAdjacentHTML('beforeend', outcome);
     document.querySelector(".modal").classList.add("show");
     document.querySelector(".modal").style.display = "block";
@@ -189,7 +183,7 @@ function endGame(outcome) {
     let yesRound = document.getElementById('yesRound');
     let noRound = document.getElementById('noRound');
 
-    yesRound.addEventListener('click', function(){
+    yesRound.addEventListener('click', function () {
         document.body.style.backgroundColor = "#497959";
         document.querySelector(".modal").classList.remove("show");
         document.querySelector(".modal").style.display = "none";
@@ -198,16 +192,18 @@ function endGame(outcome) {
         document.querySelector('.board').style.pointerEvents = 'none';
     });
 
-    noRound.addEventListener('click', function(){
+    noRound.addEventListener('click', function () {
         document.body.style.backgroundColor = "#497959";
         document.querySelector(".modal").classList.remove("show")
         document.querySelector(".modal").style.display = "none";
     });
-    //document.querySelector('.board').style.pointerEvents = 'none';
+
 }
+
 
 // Function to make a move
 function makeMove(row, col) {
+
     // Check if the cell is empty and the game is not over
     if (board[row][col] === '' && !checkWin(board, 'X') && !checkWin(board, 'O') && !boardFull(board)) {
         board[row][col] = 'X';
@@ -215,7 +211,7 @@ function makeMove(row, col) {
         if (checkWin(board, 'X')) {
             endGame('You win!');
         } else if (boardFull(board)) {
-           
+
             endGame("It's a draw!");
         } else {
             let move = computerMove(board);
@@ -232,9 +228,9 @@ function makeMove(row, col) {
 }
 
 // Function for the computer's move using MiniMax algorithm with alpha-beta pruning
-// Function for the computer's move using MiniMax algorithm with alpha-beta pruning
 function minimax(board, depth, isMaximizingPlayer, alpha, beta) {
     // Check if the game is over or if the maximum depth has been reached
+
     if (checkWin(board, 'X')) {
         return { score: -10 + depth }; // Human player wins
     } else if (checkWin(board, 'O')) {
